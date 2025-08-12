@@ -2,28 +2,30 @@
 
 ## Project Overview
 
-**Status**: ✅ **Complete OCR Library Ready for Production**
+**Status**: ✅ **Enhanced OCR Library v0.3.0 Ready for Production**
 
-This is a clean, focused Python library for extracting text from PDF documents using EasyOCR. The project has been successfully organized, built, and tested as a pip-installable package.
+This is a clean, focused Python library for extracting text from PDF documents using EasyOCR with advanced image enhancement and confidence scoring. The project has been successfully organized, built, and tested as a pip-installable package.
 
 ## Current State
 
 ### ✅ **Completed Tasks**
 - **Package Structure**: Clean, organized directory structure following Python best practices
 - **OCR Implementation**: Working EasyOCR-based text extraction from PDFs
-- **Dependencies**: Updated to use EasyOCR + PyMuPDF (removed unused pdf2image)
+- **Image Enhancement**: OpenCV + scikit-image preprocessing for poor quality documents
+- **Confidence Scoring**: Quality assessment and low-confidence region detection
+- **Dependencies**: EasyOCR + PyMuPDF + OpenCV + scikit-image
 - **Build System**: Successfully builds wheel and source distributions
 - **Testing**: Verified imports and basic functionality work correctly
-- **Documentation**: Concise README.md with essential usage information
+- **Documentation**: Updated README.md and examples for v0.3.0 features
 - **Organization**: All files properly organized into logical directories
 
 ### 📦 **Package Details**
 - **Name**: `document-reader`
-- **Version**: `0.2.0`
+- **Version**: `0.3.0`
 - **Author**: Jai Kejriwal (jai@clapgrow.com)
 - **License**: MIT
 - **Python**: 3.8+
-- **Status**: Ready for pip installation
+- **Status**: Enhanced with image preprocessing and confidence scoring
 
 ## Project Structure
 
@@ -67,6 +69,14 @@ from document_reader import extract_text_from_pdf
 text = extract_text_from_pdf("document.pdf", language='en')
 ```
 
+**Enhanced Function (v0.3.0)**:
+```python
+from document_reader import extract_text_with_confidence
+result = extract_text_with_confidence("document.pdf", enable_enhancement=True)
+text = result['text']
+confidence = result['confidence_data']['average_confidence']
+```
+
 **Advanced Class**:
 ```python
 from document_reader import OCRReader
@@ -74,16 +84,23 @@ from document_reader import OCRReader
 reader = OCRReader(
     language='en',
     confidence_threshold=0.3,
-    image_resolution_scale=2.0,
-    image_quality=80
+    enable_enhancement=True,  # New in v0.3.0
+    enhancement_method="auto"  # New in v0.3.0
 )
 
+# Traditional extraction (backward compatible)
 text = reader.process_pdf("document.pdf", page_range=(1, 5))
+
+# Enhanced extraction with confidence (v0.3.0)
+result = reader.process_pdf_with_confidence("document.pdf")
+quality = reader.assess_document_quality("document.pdf")
 ```
 
 ### **Dependencies**
 - **EasyOCR**: Primary OCR engine (stable on macOS ARM)
 - **PyMuPDF**: PDF to image conversion
+- **OpenCV**: Image enhancement and preprocessing (v0.3.0)
+- **scikit-image**: Advanced image processing (v0.3.0)
 - **Pillow**: Image processing
 - **NumPy**: Array operations
 
@@ -109,7 +126,7 @@ text = reader.process_pdf("document.pdf", page_range=(1, 5))
 
 ### **For End Users**
 ```bash
-pip install dist/document_reader-0.2.0-py3-none-any.whl
+pip install dist/document_reader-0.3.0-py3-none-any.whl
 ```
 
 ### **For Development**
@@ -165,7 +182,7 @@ rm -rf dist/ build/ src/*.egg-info/
 python -m build
 
 # Test installation
-pip install dist/document_reader-0.2.0-py3-none-any.whl --force-reinstall
+pip install dist/document_reader-0.3.0-py3-none-any.whl --force-reinstall
 
 # Verify imports
 python -c "from document_reader import OCRReader, extract_text_from_pdf; print('✓ Success')"
