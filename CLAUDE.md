@@ -42,6 +42,7 @@ document-reader/
 ├── examples/                     # Example scripts and AI integration
 │   ├── __init__.py              
 │   ├── example_usage.py         # Basic OCR usage examples
+│   ├── enhanced_usage.py        # CLI script for enhanced OCR with confidence (v0.3.0)
 │   └── orchestrator.py          # AI-powered document analysis (separate from core)
 ├── docs/                         # Documentation
 │   └── CLAUDE.MD                # Original project documentation (legacy)
@@ -134,6 +135,13 @@ pip install dist/document_reader-0.3.0-py3-none-any.whl
 cd document-reader
 pip install -e .  # Editable install
 ```
+
+### **Command Line Usage (v0.3.0)**
+For quick PDF processing with enhanced features:
+```bash
+python examples/enhanced_usage.py document.pdf
+```
+This provides enhanced OCR with confidence scoring and image enhancement.
 
 ### **For Frappe Integration**
 The library is designed to be imported into Frappe apps:
